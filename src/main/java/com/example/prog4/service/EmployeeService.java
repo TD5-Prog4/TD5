@@ -3,7 +3,9 @@ package com.example.prog4.service;
 import com.example.prog4.model.EmployeeFilter;
 import com.example.prog4.model.exception.NotFoundException;
 import com.example.prog4.repository.cnaps.CnapsRepository;
+import com.example.prog4.repository.cnaps.CnapsRepositoryImpl;
 import com.example.prog4.repository.employee.EmployeeRepository;
+import com.example.prog4.repository.employee.EmployeeRepositoryImpl;
 import com.example.prog4.repository.employee.dao.EmployeeManagerDao;
 import com.example.prog4.repository.employee.entity.Employee;
 import java.util.List;
@@ -18,13 +20,13 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class EmployeeService {
-  private EmployeeRepository baseRepository;
-  private CnapsRepository cnapsRepository;
+  private EmployeeRepositoryImpl employeeRepositoryImpl;
+  private CnapsRepositoryImpl cnapsRepositoryImpl;
   private EmployeeManagerDao employeeManagerDao;
 
 
   public Employee getOne(String id) {
-    Optional<Employee> base = baseRepository.findById(id);
+    Optional<Employee> base = employeeRepositoryImpl.findById(id);
     if (base.isEmpty()) {
       throw new NotFoundException("Employee.Id=" + id + " was not found.");
     }
@@ -33,7 +35,7 @@ public class EmployeeService {
   }
 
   public Optional<com.example.prog4.repository.cnaps.entity.Employee> getOneCnaps(String endToendId) {
-    Optional<com.example.prog4.repository.cnaps.entity.Employee> cnaps = cnapsRepository.findByEndToEndId(endToendId);
+    Optional<com.example.prog4.repository.cnaps.entity.Employee> cnaps = cnapsRepositoryImpl.findByEndToEndId(endToendId);
     return cnaps;
   }
 
@@ -53,8 +55,8 @@ public class EmployeeService {
   }
 
   public void saveOneInEmployee(Employee employee) {
-    baseRepository.save(employee);
+    employeeRepositoryImpl.saveEmployee(employee);
   }
   public void saveOneInCNaps(com.example.prog4.repository.cnaps.entity.Employee employee) {
-    cnapsRepository.save(employee);}
+    cnapsRepositoryImpl.saveCnaps(employee);}
 }

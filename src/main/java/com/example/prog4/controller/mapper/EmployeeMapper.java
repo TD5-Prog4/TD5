@@ -2,6 +2,7 @@ package com.example.prog4.controller.mapper;
 
 import com.example.prog4.model.Employee;
 import com.example.prog4.model.exception.BadRequestException;
+import com.example.prog4.repository.cnaps.CnapsRepositoryImpl;
 import com.example.prog4.repository.employee.PositionRepository;
 import com.example.prog4.repository.employee.entity.Phone;
 import com.example.prog4.repository.employee.entity.Position;
@@ -22,7 +23,7 @@ import java.util.Optional;
 public class EmployeeMapper {
     private PositionRepository positionRepository;
     private PhoneMapper phoneMapper;
-    private CnapsRepository cnapsRepository;
+    private CnapsRepositoryImpl cnapsRepositoryImpl;
 
     public com.example.prog4.repository.employee.entity.Employee toDomain(Employee employee) {
         try {
@@ -110,7 +111,7 @@ public class EmployeeMapper {
     }
 
     public Employee toView(com.example.prog4.repository.employee.entity.Employee employee) {
-        Optional<com.example.prog4.repository.cnaps.entity.Employee> cnapsEmployee = cnapsRepository.findByFirstNameAndLastName(employee.getFirstName(), employee.getLastName());
+        Optional<com.example.prog4.repository.cnaps.entity.Employee> cnapsEmployee = cnapsRepositoryImpl.findByFirstNameAndLastName(employee.getFirstName(), employee.getLastName());
     if(cnapsEmployee.isEmpty()){
         throw new BadRequestException("Cnaps Employee not found");
     }
